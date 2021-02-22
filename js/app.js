@@ -131,37 +131,56 @@ function setScrollType(){
 
 
 
-document.addEventListener("DOMContentLoaded",function (){
-    const form = document.getElementById("book_form");
-    form.addEventListener("submit", formSend);
+const form = document.getElementById("form");
 
+form.addEventListener("submit",(el)=>{
+    el.preventDefault();
+    
 
-    async function formSend(e){
-        e.preventDefault();
-
-
-        let error = formValidate(form);
-
-    }
-
-    function formValidate(form){
-        let error = 0;
+    function formValidate() {
         let formReq = document.querySelectorAll('._req');
 
-        for(let index = 0; index < formReq.length; index++) {
+        for(let index = 0; index < formReq.length; index++){
             const input = formReq[index];
-            formRemoveError(input);
-
+            
 
             if(input.classList.contains('_email')){
                 if(emailTest(input)){
+                    formRemoveError(input);
+                    console.log('error');
+                }else{
                     formAddError(input);
-                    error++;
+                    console.log('no error');
+                }
+            }
+            if(input.classList.contains('_name')){
+                
+                if(input.value == ''){
+                    console.log('no');
+                    formAddError(input);
+                    
+                }else{
+                    formRemoveError(input);
+                   
+                    console.log('yes');
+                }
+            }
+
+            if(input.classList.contains('_phone')){
+
+                if(input.value.length < 13){
+                    formAddError(input);
+                    console.log('no');
+                    
+
+
+                }else{
+                    formRemoveError(input);
+                    console.log('yes');
                 }
             }
         }
     }
-
     function formAddError(input){
         input.parentElement.classList.add('_error');
         input.classList.add('_error');
@@ -171,10 +190,16 @@ document.addEventListener("DOMContentLoaded",function (){
         input.classList.remove('_error')
     }
 
+    
     function emailTest(input){
         return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(input.value);
     }
+    
+   
+    formValidate();
 })
+
+
 const animItems = document.querySelectorAll('._anim-items');
 
 if( animItems.length > 0){
